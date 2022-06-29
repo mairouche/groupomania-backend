@@ -23,7 +23,7 @@ export class AuthService {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
       });
   }
 
@@ -31,6 +31,8 @@ export class AuthService {
     const newUser = new User(user);
     const salt = await bcrypt.genSalt(10);
     newUser.password = await bcrypt.hash(newUser.password, salt);
-    return newUser.save();
+    return newUser.save().catch((err) => {
+      console.log(err.message);
+    });
   }
 }
