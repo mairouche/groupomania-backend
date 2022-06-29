@@ -1,4 +1,4 @@
-import { User } from "../models/user.model";
+import { IUser, User } from "../models/user.model";
 import { JWT_SECRET } from "../../environments/environment";
 import * as jwt from "jsonwebtoken";
 import { CredentialDTO } from "../dto/credential.dto";
@@ -25,5 +25,12 @@ export class AuthService {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  public async signup(user: IUser) {
+    const newUser = new User(user);
+    const salt = await bcrypt.genSalt(10);
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+    return newUser.save();
   }
 }
