@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { PostService } from "../services/posts.service";
+import { PostService } from "../services/post.service";
 import { checkJwt } from "../handlers/jwt.handler";
 
 export class PostController {

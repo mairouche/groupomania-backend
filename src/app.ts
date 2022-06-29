@@ -4,11 +4,13 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import mongoose, { ConnectOptions } from "mongoose";
-import { PostService } from "./services/posts.service";
-import { PostController } from "./controllers/posts.controller";
+import { PostService } from "./services/post.service";
+import { PostController } from "./controllers/post.controller";
 import { handleErrors } from "./handlers/error.handler";
 import { AuthController } from "./controllers/auth.controller";
 import { AuthService } from "./services/auth.service";
+import { UserService } from "./services/user.service";
+import { UserController } from "./controllers/user.controller";
 
 class App {
   public app: Application;
@@ -37,8 +39,10 @@ class App {
   private setControllers() {
     const authController = new AuthController(new AuthService());
     const postController = new PostController(new PostService());
+    const userController = new UserController(new UserService());
     this.app.use("/api/auth", authController.router);
     this.app.use("/api/posts", postController.router);
+    this.app.use("/api/users", userController.router);
   }
 
   private setErrorHandling() {
