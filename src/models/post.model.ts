@@ -16,6 +16,7 @@ const PostSchema = new Schema({
   content: { type: String, required: true },
   authorName: { type: String, required: true },
   image: { type: String },
+  creationDate: { type: Date, default: new Date() },
   comments: [
     {
       content: { type: String, required: true },
