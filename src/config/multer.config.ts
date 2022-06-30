@@ -1,8 +1,9 @@
 import multer from "multer";
+import { POST_IMG_FOLDER } from "../../environments/environment";
 
 export const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/uploads/posts/img");
+    cb(null, POST_IMG_FOLDER);
   },
 
   filename: function (req: any, file: any, cb: any) {
