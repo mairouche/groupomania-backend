@@ -1,5 +1,5 @@
 import { Application } from "express";
-import { MONGO } from "../environments/environment";
+import { MONGO, POST_IMG_FOLDER } from "../environments/environment";
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
@@ -27,6 +27,7 @@ class App {
     this.app.use(bodyParser.json({ limit: "50mb" }));
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(cors());
+    this.app.use("/api/uploads/", express.static(POST_IMG_FOLDER));
   }
 
   private setMongoConfig() {
