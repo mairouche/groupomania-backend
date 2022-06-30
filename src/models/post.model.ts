@@ -1,18 +1,21 @@
 import mongoose, { model, Schema } from "mongoose";
 
 export interface IPost extends Document {
-  _id: Schema.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   content: string;
   authorName: string;
-  image: Object;
+  image: String;
   comments: [content: string, authorName: string];
 }
 
 const PostSchema = new Schema({
-  _id: { type: Schema.Types.ObjectId, default: new mongoose.Types.ObjectId() },
+  _id: {
+    type: mongoose.Types.ObjectId,
+    default: new mongoose.Types.ObjectId(),
+  },
   content: { type: String, required: true },
   authorName: { type: String, required: true },
-  image: { type: Object },
+  image: { type: String },
   comments: [
     {
       content: { type: String, required: true },

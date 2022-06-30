@@ -1,3 +1,4 @@
+import mongoose, { model, Schema } from "mongoose";
 import { HttpError } from "../errors/http.errors";
 import { IPost, Post } from "../models/post.model";
 
@@ -10,7 +11,8 @@ export class PostService {
 
   public async add(post: IPost, file: any): Promise<IPost> {
     const newPost = new Post(post);
-    newPost.image = file;
+    newPost._id = new mongoose.Types.ObjectId();
+    newPost.image = file.path;
     return await newPost.save();
   }
 

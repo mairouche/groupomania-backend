@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { PostService } from "../services/post.service";
 import { checkJwt } from "../handlers/jwt.handler";
 import multer from "multer";
+import { fileFilter, storage } from "../config/multer.config";
 
 export class PostController {
   public router = Router();
@@ -17,29 +18,7 @@ export class PostController {
     this.router.put("/:id", checkJwt, this.update);
   }
 
-  storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "./public/uploads/posts/img");
-    },
-
-    filename: function (req: any, file: any, cb: any) {
-      cb(null, file.originalname);
-    },
-  });
-
-  fileFilter = (req: any, file: any, cb: any) => {
-    if (
-      file.mimetype === "image/jpg" ||
-      file.mimetype === "image/jpeg" ||
-      file.mimetype === "image/png"
-    ) {
-      cb(null, true);
-    } else {
-      cb(new Error("Image uploaded is not of type jpg/jpeg or png"), false);
-    }
-  };
-
-  upload = multer({ storage: this.storage, fileFilter: this.fileFilter });
+  upload = multer({ storage: storage, fileFilter: fileFilter });
 
   private listPosts = async (_: Request, res: Response, next: NextFunction) => {
     const posts = await this.postService.list();
@@ -47,8 +26,11 @@ export class PostController {
   };
 
   private add = async (req: Request, res: Response, next: NextFunction) => {
-    const post = await this.postService.add(req.body, req.file);
-    res.send(post);
+    const post = await this.postService.add(req.body, req.file).catch((err) => {
+      console.log(err.message);
+      res.status(500).send(err.message);
+    });
+    res.status(200).send(post);
   };
 
   private delete = async (req: Request, res: Response, next: NextFunction) => {
