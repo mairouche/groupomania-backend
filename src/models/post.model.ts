@@ -22,6 +22,11 @@ const PostSchema = new Schema({
       authorName: { type: String, required: true },
     },
   ],
+  likers: [
+    {
+      _id: { type: mongoose.Types.ObjectId },
+    },
+  ],
 });
 
 export const Post = model<IPost>("Post", PostSchema);
