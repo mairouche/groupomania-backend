@@ -2,13 +2,16 @@ import { HttpError } from "../errors/http.errors";
 import { IPost, Post } from "../models/post.model";
 
 export class PostService {
+  POST_IMG_FOLDER: String = "./public/posts/img";
+
   public list(): Promise<IPost[]> {
     return Post.find({}).exec();
   }
 
-  public add(post: IPost): Promise<IPost> {
+  public async add(post: IPost, file: any): Promise<IPost> {
     const newPost = new Post(post);
-    return newPost.save();
+    newPost.image = file;
+    return await newPost.save();
   }
 
   public async delete(id: string) {
