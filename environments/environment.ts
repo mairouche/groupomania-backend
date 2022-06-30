@@ -6,4 +6,4 @@ export const MONGO = {
 
 export const JWT_SECRET = "jwtsecret";
 
-export const POST_IMG_FOLDER = "./public/uploads/posts/img";
+export const POST_IMG_FOLDER = "./uploads/";

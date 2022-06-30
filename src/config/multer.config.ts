@@ -1,8 +1,14 @@
 import multer from "multer";
+import * as fs from "fs";
+import * as path from "path";
 import { POST_IMG_FOLDER } from "../../environments/environment";
 
 export const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    const jsonPath = path.join(__dirname, "..", "..", POST_IMG_FOLDER);
+    if (!fs.existsSync(jsonPath)) {
+      fs.mkdirSync(jsonPath);
+    }
     cb(null, POST_IMG_FOLDER);
   },
 
