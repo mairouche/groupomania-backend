@@ -11,6 +11,7 @@ import { AuthController } from "./controllers/auth.controller";
 import { AuthService } from "./services/auth.service";
 import { UserService } from "./services/user.service";
 import { UserController } from "./controllers/user.controller";
+import { checkJwt } from "./handlers/jwt.handler";
 
 class App {
   public app: Application;
@@ -27,7 +28,7 @@ class App {
     this.app.use(bodyParser.json({ limit: "50mb" }));
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(cors());
-    this.app.use("/api/uploads/", express.static(POST_IMG_FOLDER));
+    this.app.use("/api/uploads/", checkJwt, express.static(POST_IMG_FOLDER));
   }
 
   private setMongoConfig() {
