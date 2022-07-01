@@ -35,8 +35,11 @@ export class PostController {
   };
 
   private delete = async (req: Request, res: Response, next: NextFunction) => {
-    const post = await this.postService.delete(req.params.id);
-    res.send(post);
+    const post = await this.postService.delete(req.params.id).catch((err) => {
+      console.log(err.message);
+      res.status(500).send(err.message);
+    });
+    res.status(200).send(post);
   };
 
   private update = async (req: Request, res: Response, next: NextFunction) => {

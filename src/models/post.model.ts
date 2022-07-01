@@ -4,7 +4,7 @@ export interface IPost extends Document {
   _id: mongoose.Types.ObjectId;
   content: string;
   authorName: string;
-  image: String;
+  image: string;
   comments: [{ content: string; authorName: string; creationDate: Date }];
 }
 

@@ -1,5 +1,6 @@
+import * as fs from "fs";
 import mongoose, { model, Schema } from "mongoose";
-import { resolve } from "path";
+import path, { resolve } from "path";
 import { CommentDTO } from "../dto/comment.dto";
 import { HttpError } from "../errors/http.errors";
 import { IPost, Post } from "../models/post.model";
@@ -19,10 +20,21 @@ export class PostService {
   }
 
   public async delete(id: string) {
+    let imagePath = "";
+    Post.find({ _id: id })
+      .then((data) => {
+        imagePath = data[0].image;
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
     const deletedPost = await Post.findByIdAndDelete(id).exec();
 
     if (!deletedPost) {
       throw new HttpError(`Post with id '${id}' not found`, 404);
+    } else {
+      const jsonPath = path.join(__dirname, "..", "..", imagePath);
+      fs.unlinkSync(jsonPath);
     }
   }
 
