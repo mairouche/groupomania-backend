@@ -21,6 +21,7 @@ const PostSchema = new Schema({
     {
       content: { type: String, required: true },
       authorName: { type: String, required: true },
+      creationDate: { type: Date, default: new Date() },
     },
   ],
   likers: [
