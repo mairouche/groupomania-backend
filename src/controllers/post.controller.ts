@@ -16,6 +16,7 @@ export class PostController {
     this.router.post("/", checkJwt, this.upload.single("image"), this.add);
     this.router.delete("/:id", checkJwt, this.delete);
     this.router.put("/:id", checkJwt, this.update);
+    this.router.post("/:id/comments", checkJwt, this.addComment);
   }
 
   upload = multer({ storage: storage, fileFilter: fileFilter });
@@ -41,5 +42,19 @@ export class PostController {
   private update = async (req: Request, res: Response, next: NextFunction) => {
     await this.postService.update(req.params.id, req.body);
     res.status(204).send();
+  };
+
+  private addComment = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const post = await this.postService
+      .addComment(req.params.id, req.body)
+      .catch((err) => {
+        console.log(err.message);
+        res.status(500).send(err.message);
+      });
+    res.status(200).send(post);
   };
 }

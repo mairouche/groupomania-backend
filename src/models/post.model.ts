@@ -5,7 +5,7 @@ export interface IPost extends Document {
   content: string;
   authorName: string;
   image: String;
-  comments: [content: string, authorName: string];
+  comments: [{ content: string; authorName: string; creationDate: Date }];
 }
 
 const PostSchema = new Schema({

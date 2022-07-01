@@ -1,0 +1,69 @@
+[
+  {
+    "_id": {
+      "$oid": "62bd8954bca6983aedcfaf11"
+    },
+    "content": "Test 1",
+    "authorName": "Admin",
+    "creationDate": {
+      "$date": "2022-07-01T10:47:58.235Z"
+    },
+    "comments": [
+      {
+        "content": "test",
+        "authorName": "Admin",
+        "creationDate": {
+          "$date": "2022-07-01T10:47:58.235Z"
+        },
+        "_id": {
+          "$oid": "62bed12aa0dd6edf0e8a9e32"
+        }
+      },
+      {
+        "content": "aaa",
+        "authorName": "Admin",
+        "creationDate": {
+          "$date": "2022-07-01T11:01:16.168Z"
+        },
+        "_id": {
+          "$oid": "62bed401373a9d538256df52"
+        }
+      },
+      {
+        "content": "test 3",
+        "authorName": "Admin",
+        "creationDate": {
+          "$date": "2022-07-01T11:01:16.168Z"
+        },
+        "_id": {
+          "$oid": "62bed67f373a9d538256df73"
+        }
+      }
+    ],
+    "likers": [],
+    "image": "uploads\\1656588628897_669177.jpg",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "62bd97439d953367d525acea"
+    },
+    "content": "aaa",
+    "authorName": "Admin",
+    "creationDate": {
+      "$date": "2022-06-30T12:14:15.442Z"
+    },
+    "comments": [
+      {
+        "content": "Commentaire :)",
+        "authorName": "Member",
+        "creationDate": {
+          "$date": "2022-06-28T11:29:51.358Z"
+        }
+      }
+    ],
+    "likers": [],
+    "image": "uploads\\1656592195166_1280px-WC3Reforged-logo.png",
+    "__v": 0
+  }
+]

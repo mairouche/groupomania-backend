@@ -1,4 +1,6 @@
 import mongoose, { model, Schema } from "mongoose";
+import { resolve } from "path";
+import { CommentDTO } from "../dto/comment.dto";
 import { HttpError } from "../errors/http.errors";
 import { IPost, Post } from "../models/post.model";
 
@@ -32,5 +34,20 @@ export class PostService {
     }
 
     return updatedPost;
+  }
+
+  public async addComment(idPost: string, comment: CommentDTO): Promise<any> {
+    return Post.find({ _id: idPost })
+      .then((data) => {
+        if (comment.content != null && comment.content != "") {
+          data[0].comments.push(comment);
+          return Post.findByIdAndUpdate(idPost, data[0]).exec();
+        } else {
+          throw new Error("Empty comment");
+        }
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
   }
 }
