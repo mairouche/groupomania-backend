@@ -13,6 +13,8 @@ export class PostController {
 
   public setRoutes() {
     this.router.get("/", checkJwt, this.listPosts);
+    this.router.post("/:id/like", checkJwt, this.likePost);
+    this.router.post("/:id/unlike", checkJwt, this.unlikePost);
     this.router.post("/", checkJwt, this.upload.single("image"), this.add);
     this.router.delete("/:id", checkJwt, this.delete);
     this.router.put("/:id", checkJwt, this.update);
@@ -24,6 +26,34 @@ export class PostController {
   private listPosts = async (_: Request, res: Response, next: NextFunction) => {
     const posts = await this.postService.list();
     res.send(posts);
+  };
+
+  private likePost = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const post = await this.postService
+      .like(req.params.id, req.body.userId)
+      .catch((err) => {
+        console.log(err.message);
+        res.status(500).send(err.message);
+      });
+    res.status(200).send(post);
+  };
+
+  private unlikePost = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const post = await this.postService
+      .unlike(req.params.id, req.body.userId)
+      .catch((err) => {
+        console.log(err.message);
+        res.status(500).send(err.message);
+      });
+    res.status(200).send(post);
   };
 
   private add = async (req: Request, res: Response, next: NextFunction) => {

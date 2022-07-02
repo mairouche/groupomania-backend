@@ -1,6 +1,12 @@
 import * as fs from "fs";
-import mongoose, { model, Schema } from "mongoose";
+import mongoose, {
+  isObjectIdOrHexString,
+  model,
+  ObjectId,
+  Schema,
+} from "mongoose";
 import path, { resolve } from "path";
+import { arrayBuffer } from "stream/consumers";
 import { CommentDTO } from "../dto/comment.dto";
 import { HttpError } from "../errors/http.errors";
 import { IPost, Post } from "../models/post.model";
@@ -57,6 +63,31 @@ export class PostService {
         } else {
           throw new Error("Empty comment");
         }
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+  }
+
+  public async like(idPost: string, userId: string): Promise<any> {
+    return Post.find({ _id: idPost })
+      .then((data) => {
+        data[0].likers.push(new mongoose.Types.ObjectId(userId));
+        return Post.findByIdAndUpdate(idPost, data[0]).exec();
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+  }
+
+  public async unlike(idPost: string, userId: string): Promise<any> {
+    return Post.find({ _id: idPost })
+      .then((data) => {
+        let index = data[0].likers.indexOf({
+          _id: new mongoose.Types.ObjectId(userId),
+        });
+        data[0].likers.splice(index, 1);
+        return Post.findByIdAndUpdate(idPost, data[0]).exec();
       })
       .catch((err) => {
         throw new Error(err.message);
